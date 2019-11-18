@@ -25,6 +25,7 @@ router.post('/taskboard', async (req, res) => {
     // } else {
         const newAccount = new Account({ username, password, accountToFollow});
         await newAccount.save();
+        const aviso = {amor:"fuck"};
         res.redirect('/taskboard');
         console.log(newAccount);
     // }

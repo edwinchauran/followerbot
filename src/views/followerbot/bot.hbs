@@ -1,14 +1,63 @@
-{{#each datos}}
-    <div class="row">
-            <div class=" col-md-3 mx-auto mt-2">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-text h4 float-right">
-                            {{username}}
-                        </p>
+<div class="row">
+    {{#each datos}}
+        <div class="col-12">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-2 col-md-1 d-flex align-items-center">
+                            <img class="w-100" src="/img/user.png" alt="">
+                        </div>
+                        <div class="col-10 d-flex align-items-center">
+                            <span class="h2 text-dark">{{username}}</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="h5 text-info">1000 Seguidores</span>
+                        </div>
                     </div>
                 </div>
             </div>
-    </div>
-    
-{{/each}}
+        </div>
+        <div class="col-12 col-md-4">
+            <div class=" card mb-2">
+                <div class="card-body">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-12">
+                            <span class="h1 text-primary">1000</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="h5 text-dark">Seguidores originales</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-12">
+                            <span class="h1 text-success">1000</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="h5 text-dark">Seguidores Nuevos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-12">
+                            <span class="h1 text-warning">234</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="h5 text-dark">Seguidores por seguir</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
