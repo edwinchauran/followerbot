@@ -10,13 +10,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^1.19.4"
-  },
+  "devDependencies": {},
   "dependencies": {
     "assert": "^2.0.0",
     "chromedriver": "^78.0.1",
-    "screen-resolution": "^1.0.0",
     "selenium-webdriver": "^4.0.0-alpha.5"
   }
 }
