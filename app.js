@@ -3,7 +3,7 @@ const {Builder,  By, Capabilities} = require('selenium-webdriver'),
     assert = require('assert'),
     chromeCapabilities = Capabilities.chrome(),
     l = '>>>>>>',
-    intentos = 1000000;
+    intentos = 9999999999999999;
 
     chromeCapabilities.set("goog:chromeOptions", {
         args: [
@@ -33,47 +33,47 @@ const {Builder,  By, Capabilities} = require('selenium-webdriver'),
       async function start(){
           try
           {
-              function comprobarInternet(e){
-                  if(e == 'dashboard')
-                  {
-                      while(currentTitle !== everve.title)
-                      {
-                            console.log("no hay internet");
-                            console.log("refrescando");
-                            (async () => await driver.navigate().refresh())()
-                            (async () => await driver.sleep(6000))()
-                            (async ()=>currentTitle = await driver.getTitle())
-                            if(currentTitle == everve.title)
-                            {
-                                break;
-                            }
-                        }
-                        console.log("si hay internet")
-                    } if(e == 'youtube')
-                  {
-                    (async () => await driver.findElement((By.xpath(everve.ytLogo))))()
-                    .catch((err) =>{
-                        console.log("no hay internet");
-                        while(youtubeTitle !== everve.ytTitle)
-                        {
-                                console.log("refrescando")
-                            (async () => {
-                                await driver.navigate().refresh()
-                                await driver.sleep(6000)
-                                tituloYoutube = await driver.getTitle();
-                                youtubeTitle = tituloYoutube.substr(tituloYoutube.length - 7);
-                            })()
-                                if(youtubeTitle == everve.ytTitle)
-                                {
-                                    break;
-                                    // return youtubeTitle;
-                                }
-                        }
-                    })
-                    console.log("si hay internet")
-                  }
+            //   function comprobarInternet(e){
+            //       if(e == 'dashboard')
+            //       {
+            //           while(currentTitle !== everve.title)
+            //           {
+            //                 console.log("no hay internet");
+            //                 console.log("refrescando");
+            //                 (async () => await driver.navigate().refresh())()
+            //                 (async () => await driver.sleep(6000))()
+            //                 (async ()=>currentTitle = await driver.getTitle())
+            //                 if(currentTitle == everve.title)
+            //                 {
+            //                     break;
+            //                 }
+            //             }
+            //             console.log("si hay internet")
+            //         } if(e == 'youtube')
+            //       {
+            //         (async () => await driver.findElement((By.xpath(everve.ytLogo))))()
+            //         .catch((err) =>{
+            //             console.log("no hay internet");
+            //             while(youtubeTitle !== everve.ytTitle)
+            //             {
+            //                     console.log("refrescando")
+            //                 (async () => {
+            //                     await driver.navigate().refresh()
+            //                     await driver.sleep(6000)
+            //                     tituloYoutube = await driver.getTitle();
+            //                     youtubeTitle = tituloYoutube.substr(tituloYoutube.length - 7);
+            //                 })()
+            //                     if(youtubeTitle == everve.ytTitle)
+            //                     {
+            //                         break;
+            //                         // return youtubeTitle;
+            //                     }
+            //             }
+            //         })
+            //         console.log("si hay internet")
+            //       }
 
-              }
+            //   }
               for (var i = 1; i <= intentos; i++) {
                                                                                           console.log(l + ' tarea ' + i + ' de ' + intentos)
                                                                                           console.log(l+' entrando al sitio')
@@ -87,13 +87,13 @@ const {Builder,  By, Capabilities} = require('selenium-webdriver'),
                   await driver.sleep(4000)
                   var currentTitle = await driver.getTitle();
                   console.log("verificando que haya internet")
-                  comprobarInternet('dashboard');
+                //   comprobarInternet('dashboard');
                   await driver.findElement((By.xpath(everve.task) )).click()
                   //Wait for the new window or tab
                   await driver.wait(
                       async () => (await driver.getAllWindowHandles()).length === 2,
                       15000
-                      );
+                      ).catch((e)=> { driver.quit(); start()});
                       //Cambiar a youtube
                       var windows = await driver.getAllWindowHandles();
                       windows.forEach(async handle => {
@@ -108,7 +108,7 @@ const {Builder,  By, Capabilities} = require('selenium-webdriver'),
                   var tituloYoutube = await driver.getTitle()
                   var youtubeTitle = tituloYoutube.substr(tituloYoutube.length - 7);
                   console.log("verificando que haya internet")
-                  comprobarInternet('youtube');
+                //   comprobarInternet('youtube');
                   await driver.findElement((By.css(everve.subscribe) )).click()
                   .catch(async (err) => {
                       console.log(l+' Ya estas suscrito')
