@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon /app.js",
-    "web": "start http://localhost:3000"
+    "dev": "node ./index.js"
   },
   "keywords": [],
   "author": "",
