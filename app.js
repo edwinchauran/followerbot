@@ -3,15 +3,15 @@ const {Builder,  By, Capabilities} = require('selenium-webdriver'),
     assert = require('assert'),
     chromeCapabilities = Capabilities.chrome(),
     l = '>>>>>>',
-    intentos = 9999999999999999;
+    intentos = 2000;
 
     chromeCapabilities.set("goog:chromeOptions", {
         args: [
             "--lang=es",
             "disable-infobars",
               "--start-maximized",
-            // `--window-size=800,1024`,
-            `user-data-dir=C:/Users/Usuario/AppData/Local/Google/Chrome/User Data`
+            `--window-size=1024,600`,
+            `user-data-dir=C:/Users/Edwin/AppData/Local/Google/Chrome/User Data`
         ]
     });
     const options = new Options()
@@ -22,15 +22,93 @@ const {Builder,  By, Capabilities} = require('selenium-webdriver'),
     const everve = {
         title : 'Everve | Social Media Exchange on steroids',
         ytTitle: 'Youtube',
-        website : "https://everve.net/tasks/youtube-subscribes/",
+        url : {
+            subscribe : 'https://everve.net/tasks/youtube-subscribes/',
+            view: 'https://everve.net/tasks/youtube-views/',
+            likes : 'https://everve.net/tasks/youtube-likes/',
+            dislikes : 'https://everve.net/tasks/youtube-dislikes/'
+        },
+        viewButtons : {
+            viewVideo : '//*[@id="tasks_list_table"]/tbody/tr[1]/td[3]/a'
+        },
         task : '//html/body/div[4]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[3]/a',
         next : 'Next',
         subscribe : '.style-scope .yt-button-renderer .style-blue-text .size-default',
         unsubscribe1 : '.style-scope .ytd-subscribe-button-renderer',
         ytLogo : '//*[@id="logo-icon-container"]'
     };
+/**
+ Cosas que faltan:
+    -comprobar si youtube se tranco en suscriciones
+    -crear una funcion para cambiar de tarea si no hay mas tareas
+    -comprobar si hay internet
+ */
+async function vistas(){
+    try{
+        for (let i = 1; i <= intentos; i++) {
+            console.log(l + ' tarea ' + i + ' de ' + intentos)
+                console.log(l+' entrando al sitio')
+            //going to website
+            await driver.get(everve.url.view)
+            .catch((e)=> console.log(l + ' error en la linea:' + '88 '))
 
-      async function start(){
+            //registro del dashboard
+            let originalWindow = await driver.getWindowHandle();
+            assert((await driver.getAllWindowHandles()).length === 1);
+
+            console.log(l + 'esperando 4 segundos')
+            await driver.sleep(8000)
+            .catch((e)=> console.log(l + ' error en la linea:' + '94 '))
+            // let currentTitle = await driver.getTitle();
+            // console.log("verificando que haya internet")
+            //   comprobarInternet('dashboard');
+            let verga = await driver.findElement((By.xpath('//*[@id="order_completed"]/div/div/div/div/h6/b'))).getText();
+            if(verga == 'Awesome!')
+            {
+            console.log('No hay tareas disponibles sobre suscriciones')
+            break;
+            }
+            await driver.findElement((By.xpath(everve.viewButtons.viewVideo) )).click()
+            //Wait for the new window or tab
+            await driver.wait(
+            async () => (await driver.getAllWindowHandles()).length === 2,
+            15000
+            ).catch((e)=> { driver.quit(); subcriciones()});
+            //Cambiar a youtube
+            let windows = await driver.getAllWindowHandles();
+            windows.forEach(async handle => {
+            if (handle !== originalWindow) {
+            await driver.switchTo().window(handle);
+            console.log(l + ' cambiando de tab');
+            }
+            });
+            // esperando 60segundos
+            console.log()
+            for (let i = 1; i < 40; i++) {
+                console.log('esperando ' + i + ' segs')
+                await driver.sleep(1000)
+                .catch((e)=> console.log(l + ' error en la linea:' + '123 '))
+            }
+            console.log(l + ' cerrando tab')
+            await driver.close();
+            //cambiar a dashboard
+            windows = await driver.getAllWindowHandles();
+            windows.forEach(async handle => {
+            if (handle == originalWindow) {
+            console.log(l + 'cambiando de tab')
+            await driver.switchTo().window(handle);
+            }
+            })
+            console.log(l + ' esperando 15 segundos')
+            await driver.sleep(10000)
+            .then(_ => console.log('SUCCESS'), err => console.error('>>>>Hubo un error'));
+        }
+    }
+    finally {
+        driver.quit();
+    }
+}
+      async function subcriciones(){
           try
           {
             //   function comprobarInternet(e){
@@ -78,22 +156,33 @@ const {Builder,  By, Capabilities} = require('selenium-webdriver'),
                                                                                           console.log(l + ' tarea ' + i + ' de ' + intentos)
                                                                                           console.log(l+' entrando al sitio')
                   //going to website
-                  await driver.get(everve.website)
+                  await driver.get(everve.url.subscribe)
+                  .catch((e)=> console.log(l + ' error en la linea:' + '88 '))
+
                   //registro del dashboard
                   var originalWindow = await driver.getWindowHandle();
                   assert((await driver.getAllWindowHandles()).length === 1);
 
                   console.log(l + 'esperando 4 segundos')
                   await driver.sleep(4000)
-                  var currentTitle = await driver.getTitle();
+                  .catch((e)=> console.log(l + ' error en la linea:' + '94 '))
+                //   var currentTitle = await driver.getTitle();
                   console.log("verificando que haya internet")
                 //   comprobarInternet('dashboard');
+                const verga = await driver.findElement((By.xpath('//*[@id="order_completed"]/div/div/div/div/h6/b'))).getText();
+                if(verga == 'Awesome!')
+                {
+                    console.log('No hay tareas disponibles sobre suscriciones')
+                    driver.quit();
+                    vistas();
+                    break;
+                }
                   await driver.findElement((By.xpath(everve.task) )).click()
                   //Wait for the new window or tab
                   await driver.wait(
                       async () => (await driver.getAllWindowHandles()).length === 2,
                       15000
-                      ).catch((e)=> { driver.quit(); start()});
+                      ).catch((e)=> { driver.quit(); subcriciones()});
                       //Cambiar a youtube
                       var windows = await driver.getAllWindowHandles();
                       windows.forEach(async handle => {
@@ -104,7 +193,9 @@ const {Builder,  By, Capabilities} = require('selenium-webdriver'),
                       });
                                                                                       console.log(l + ' suscribiendo')
                   // Suscribiendo
-                  await driver.sleep(5000)
+                  await driver.sleep(10000)
+                  .catch((e)=> console.log(l + ' error en la linea:' + '123 '))
+
                   var tituloYoutube = await driver.getTitle()
                   var youtubeTitle = tituloYoutube.substr(tituloYoutube.length - 7);
                   console.log("verificando que haya internet")
@@ -137,4 +228,5 @@ const {Builder,  By, Capabilities} = require('selenium-webdriver'),
               driver.quit();
           }
       }
-          start()
+    //   subcriciones()
+      vistas()
