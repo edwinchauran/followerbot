@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./index.js"
+    "dev": "electron ./index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "dependencies": {
     "assert": "^2.0.0",
     "chromedriver": "^78.0.1",
+    "jquery": "^3.4.1",
     "selenium-webdriver": "^4.0.0-alpha.5"
   }
 }
