@@ -18,8 +18,8 @@ function createWindow () {
     // height: 1000,
     maxWidth: 378,
     maxHeight: 400,
-    frame: false,
-    title: "maquinita",
+    // frame: false,
+    title: "maquinita 1.0.0",
     fullscreenable: false,
     maximizable: false,
     webPreferences: {
@@ -28,14 +28,14 @@ function createWindow () {
     }
   })
   win.center();
-  // win.removeMenu();
+  win.removeMenu();
   // win.openDevTools();
   // and load the index.html of the app.
   // win.setResizable(false)
-  win.on('will-resize', (e) => {
-    //prevent resizing even if resizable property is true.
-    e.preventDefault();
-    });
+  // win.on('will-resize', (e) => {
+  //   //prevent resizing even if resizable property is true.
+  //   e.preventDefault();
+  //   });
   win.loadFile('./src/view/index.html')
   win.on('closed', () => {
     win = null
@@ -43,10 +43,3 @@ function createWindow () {
 }
 
 app.whenReady().then(createWindow);
-
-
-  // sub.subscribe(1000, 'Usuario')
-  // .catch((e)=> console.log('hubo un error'))
-  // .then(()=>{
-    // watch.view(1000, 'Usuario')
-  // })

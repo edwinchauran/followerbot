@@ -1,19 +1,28 @@
 {
   "name": "bot-web",
   "version": "1.0.0",
-  "description": "",
+  "description": "A program to make automatic tasks in everve.net",
   "main": "index.js",
   "scripts": {
     "dev": "electron ./index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "everve",
+    "automatic",
+    "tasks"
+  ],
+  "author": "edwinvisuales",
   "license": "ISC",
-  "devDependencies": {},
+  "devDependencies": {
+    "electron": "8.0.1",
+    "electron-builder": "^22.3.2"
+  },
   "dependencies": {
+    "angular": "^1.7.9",
     "assert": "^2.0.0",
     "chromedriver": "^78.0.1",
     "jquery": "^3.4.1",
+    "materialize-css": "^1.0.0",
     "selenium-webdriver": "^4.0.0-alpha.5"
   }
 }

@@ -1,20 +1,7 @@
-.sortable {
-    cursor: pointer;
+.card-content {
+  padding:10px !important;
+  margin:0px !important;
   }
-  .card-content {
-    padding:10px !important;
-    margin:0px !important;
-    }
-    .small-container {
-margin: 0 auto;
-max-width: 1280px;
-width: 97%;
-}
-@media only screen and (min-width: 601px) {
-  .small-container {
-    width: 72%;
-  }
-}
-.loader1 {
-display:none;
+.drag {
+  -webkit-app-region: drag
 }

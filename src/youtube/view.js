@@ -1,13 +1,14 @@
+require('chromedriver');
 var {Builder,  By, Capabilities} = require('selenium-webdriver')
 var {Options} = require('selenium-webdriver/chrome');
 var everve = require('./datos/d-subscribe.js');
 var assert = require('assert');
-var l = '>>>>>>';
+var l = '';
 var chromeCapabilities = Capabilities.chrome();
 
 module.exports =
 {
-    view : async function(intentos, userData)
+    view : async function(intentos, userData, mensaje)
     {
         chromeCapabilities.set("goog:chromeOptions",
         {
@@ -26,26 +27,26 @@ module.exports =
         .build();
         try{
             for (let i = 1; i <= intentos; i++) {
-                console.log(`${l} entrando a ${everve.url.subscribe}`)
-                console.log(l + ' tarea ' + i + ' de ' + intentos)
+                mensaje(`${l} entrando a ${everve.url.subscribe}`)
+                mensaje(l + ' tarea ' + i + ' de ' + intentos)
                 //going to website
                 await driver.get(everve.url.view)
-                // .catch((e)=> console.log(l + ' error en la linea:' + '    '))
+                // .catch((e)=> mensaje(l + ' error en la linea:' + '    '))
 
                 //registro del dashboard
                 let originalWindow = await driver.getWindowHandle();
                 assert((await driver.getAllWindowHandles()).length === 1);
 
-                console.log(l + 'esperando 4 segundos')
+                mensaje(l + 'esperando 4 segundos')
                 await driver.sleep(8000)
-                .catch((e)=> console.log(l + ' error en la linea:' + '94 '))
+                .catch((e)=> mensaje(l + ' error en la linea:' + '94 '))
                 // let currentTitle = await driver.getTitle();
-                // console.log("verificando que haya internet")
+                // mensaje("verificando que haya internet")
                 //   comprobarInternet('dashboard');
                 let verga = await driver.findElement((By.xpath('//*[@id="order_completed"]/div/div/div/div/h6/b'))).getText();
                 if(verga == 'Awesome!')
                 {
-                console.log('No hay tareas disponibles sobre suscriciones')
+                mensaje('No hay tareas disponibles sobre suscriciones')
                 break;
                 }
                 await driver.findElement((By.xpath(everve.viewButtons.viewVideo) )).click()
@@ -59,34 +60,34 @@ module.exports =
                 windows.forEach(async handle => {
                 if (handle !== originalWindow) {
                 await driver.switchTo().window(handle);
-                console.log(l + ' cambiando de tab');
+                mensaje(l + ' cambiando de tab');
                 }
                 });
                 // esperando 60segundos
-                console.log()
+                mensaje("esperando unos 60 segundos")
                 for (let i = 1; i < 40; i++) {
-                    console.log('esperando ' + i + ' segs')
+                    mensaje('esperando ' + i + ' segs')
                     await driver.sleep(1000)
-                    .catch((e)=> console.log(l + ' error en la linea:' + '123 '))
+                    .catch((e)=> mensaje(l + ' error en la linea:' + '123 '))
                 }
-                console.log(l + ' cerrando tab')
+                mensaje(l + ' cerrando tab')
                 await driver.close();
                 //cambiar a dashboard
                 windows = await driver.getAllWindowHandles();
                 windows.forEach(async handle => {
                 if (handle == originalWindow) {
-                console.log(l + 'cambiando de tab')
+                mensaje(l + 'cambiando de tab')
                 await driver.switchTo().window(handle);
                 }
                 })
-                console.log(l + ' esperando 15 segundos')
+                mensaje(l + ' esperando 15 segundos')
                 await driver.sleep(10000)
-                .then(_ => console.log('SUCCESS'), err => console.error('>>>>Hubo un error'));
+                .then(_ => mensaje('SUCCESS'), err => console.error('>>>>Hubo un error'));
             }
         }
         finally {
             await driver.quit()
-            .then(_ => console.log('SUCCESS'), err => console.error('>>>>Hubo un error'));
+            .then(_ => mensaje('SUCCESS'), err => console.error('>>>>Hubo un error'));
         }
     }
 }
